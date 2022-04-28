@@ -1,0 +1,210 @@
+#Created by liami_#0001
+#version 2.1.4
+#Do not distribute without permission
+
+
+command /discord:
+    aliases: disc
+    trigger:
+        message " <link:https://discord.gg/ZkGqJfe5Kb>&3&lUnbalance &8| &bClick Here!"
+        stop
+
+options:
+    Token:
+    Bot: Unbalance
+
+on skript load:
+    login to "{@Token}" with name "{@Bot}"
+    send ":green_circle: **The server has started!**%nl%*Unbalance.minehut.gg*" to channel with name "『🌲』server-chat" with "{@Bot}"
+
+on skript unload:
+	send ":red_circle: **The server has stopped!**" to channel with name "『🌲』server-chat" with "{@Bot}"
+
+command /login [<text>]:
+  permission: discord.login
+  permission message: &cYou do not have permission!
+  trigger:
+    login to "{@Token}" with the name "{@Bot}"
+    send "&eLogged in!" to player
+    send ":green_circle: **The server has started!**%nl%*Unbalance.minehut.gg*" to channel with name "『🌲』server-chat" with "{@Bot}"
+
+on chat:
+    if {Globalchat} is set:
+        stop
+    {crewchat::%uuid of player%} is set:
+        stop
+    replace all "`" in message with ""
+    set message to uncolored message
+    send "%uncolored translate(player's prefix)% | %player%: %message%" to channel with name "『🌲』server-chat" with "{@Bot}"
+
+on join:
+	if player has played before:
+		send ":arrow_right: %uncolored player's prefix%| %player% has joined!" to channel with name "『🌲』server-chat" with "{@Bot}"
+	else:
+		send ":arrow_right: %uncolored player's prefix%| %player% has joined for the first time!" to channel with name "『🌲』server-chat" with "{@Bot}"
+
+
+on quit:
+	send ":arrow_left: %uncolored player's prefix%| %player% has left!" to channel with name "『🌲』server-chat" with "{@Bot}"
+
+on guild message received:
+	if event-channel is channel with name "『🌲』server-chat":
+		if event-member is not bot:
+			if {Globalchat} is true:
+				stop
+			else if event-member have role role with id "921439677574160498":
+				set {_message} to first 256 characters of "%event-message%"
+				set {_message} to uncolored {_message}
+				broadcast "&3[DISCORD STAFF] &8| &f%event-member%: &f%{_message}%"
+			else:
+				set {_message} to first 256 characters of "%event-message%"
+				set {_message} to uncolored {_message}
+				broadcast "&9[DISCORD] &8| &7%event-member%: &7%{_message}%"
+
+
+
+discord command ,online:
+    bots: {@Bot}
+    trigger:
+        set {onlinelistamount} to 0
+        make embed:
+            set the colour of the embed to cyan
+            loop all players:
+                if {_onlinelist} is set:
+                    set {_onlinelist} to "%{_onlinelist}%%nl%%loop-player%"
+                else:
+                    set {_onlinelist} to "%loop-player%"
+                add 1 to {onlinelistamount}
+            set the title of the embed to "Players online: %{onlinelistamount}%"
+            if {_onlinelist} is set:
+                set the description of the embed to "`%{_onlinelist}%`"
+                set the footer of the embed to footer with text "Created by liami_##0001"
+            else:
+                set the footer of the embed to footer with text "Created by liami_##0001"
+        send last made embed to event-channel with event-bot
+
+discord command ,tps:
+	roles: Staff
+	trigger:
+		make embed:
+			set the title of the embed to "Unbalance Bot"
+			set the description of the embed to "Current TPS is %tps%"
+			set the colour of the embed to cyan
+			set the footer of the embed to footer with text "Created by liami_##0001"
+		send last made embed to event-channel with event-bot
+
+discord command ,excmd <text>:
+  roles: *
+  trigger:
+    execute console command "%arg-1%"
+    make embed:
+      set the title of the embed to "Unbalance Bot"
+      set the description of the embed to "Executed command ``%arg-1%``"
+      set the colour of the embed to cyan
+      set the footer of the embed to footer with text "Created by liami_##0001"
+    send last made embed to event-channel with event-bot
+
+
+
+
+discord command ,reload <text>:
+	roles: *
+	trigger:
+		execute console command "skript reload %arg-1%"
+		make embed:
+			set the title of embed to "Unbalance Bot"
+			set the description of the embed to "Reloaded skript: ``%arg-1%``"
+			set the colour of the embed to cyan
+			set the footer of the embed to footer with text "Created by liami_##0001"
+		send last made embed to event-channel with event-bot
+
+discord command ,ip:
+  trigger:
+    make embed:
+      set the title of the embed to "Unbalance Bot"
+      set the description of the embed to "Ip is: ``Unbalance.minehut.gg``"
+      set the colour of the embed to cyan
+      set the footer of the embed to footer with text "Created by liami_##0001"
+    send last made embed to event-channel with event-bot
+
+discord command ,onion:
+	trigger:
+		make embed:
+			set the title of the embed to "Unbalance Bot"
+			set the description of the embed to "The holy onion has been summoned!"
+			set the image of the embed to "https://cdn.discordapp.com/attachments/939212806773960745/949752575169798144/1200px-Onion_on_White.png?size=4096"
+			set the colour of the embed to cyan
+			set the footer of the embed to footer with text "Created by liami_##0001"
+		send the last made embed to event-channel with event-bot
+
+
+discord command ,apply:
+  trigger:
+    make embed:
+      set the title of the embed to "Unbalance Bot"
+      set the description of the embed to "Applications:%nl%%nl%Developer: https://forms.office.com/r/gV36LLtuVy%nl%%nl%Builder: https://forms.office.com/r/9g7iZDDUgi%nl%%nl%Jr Moderator: https://docs.google.com/forms/d/e/1FAIpQLSfTT5tBfRQG59gl4mMMMzr4ieFCrsiDdNBAwZC0da27Mi-uMA/viewform"
+      set the colour of the embed to cyan
+      set the footer of the embed to footer with text "Created by liami_##0001"
+    send last made embed to event-channel with event-bot
+
+discord command ,uptime:
+	trigger:
+		make embed:
+			set the title of embed to "Unbalance Bot"
+			set the description of embed to "Uptime: ``%uptime of event-bot%``"
+			set the colour of the embed to cyan
+			set the footer of the embed to footer with text "Created by liami_##0001"
+		send last made embed to event-channel with event-bot
+
+
+variables:
+	{staffchat.%player%} = false
+
+on chat:
+	if {staffchat.%player%} is true:
+		cancel event
+		loop all players:
+			if loop-player has permission "staff.chat":
+				send "&e[STAFF] &6%player% &7» &%message%" to loop-player
+
+command /sch [<text>]:
+	permission: staffc.sk
+	trigger:
+		if arg 1 is not set:
+			if player has permission "staff.chat":
+				send "&eLooks life you forgot a message to send" to player
+				send "&eUse the command like this &6&l/staffchat message" to player
+			else:
+				send "&eYou do not have the required permission to do this!"
+		else:
+			send "%uncolored player's prefix%| %player%: %arg 1%" to channel with name "『🌳』mc-staffchat" with "{@Bot}"
+			loop all players:
+				if loop-player has permission "staff.chat":
+					send "&e[STAFF] &6%player% &7: &f%arg 1%" to loop-player
+
+on guild message received:
+    if event-channel is channel with name "『🌳』mc-staffchat":
+        if event-member is not bot:
+            set {_staffmessage} to first 256 characters of "%event-message%"
+            set {_staffmessage} to colored {_staffmessage}
+            loop all players:
+                if loop-player has permission "staff.chat":
+                    send "&e[DISCORD STAFF] &6%event-member%&7: &f%{_staffmessage}%" to loop-player
+
+discord command ,version:
+	trigger:
+		make embed:
+			set the title of the embed to "Unbalance Bot"
+			set the description of the embed to "Version: 2.1.4 Created by Liami_"
+			set the footer of the embed to footer with text "Created by liami_##0001"
+			set the colour of the embed to cyan
+		send last made embed to event-channel with event-bot
+
+discord command ,help:
+	trigger:
+		make embed:
+			set the title of the embed to "Command Help:"
+			set the description of the embed to ",online - Shows the current players on the server%nl%%nl%,tps Shows the servers current tps (Staff role required)%nl%%nl%,cmd - Lets you execute a command on the server (Admin Role required)%nl%%nl%,reload - Reloads a skript of your choice (Admin Role required)%nl%%nl%,ip - Displays the servers IP%nl%%nl%,onion - Onion%nl%%nl%,apply - Links all the applications%nl%%nl%,uptime - Shows the server uptime%nl%%nl%,version - Shows the bot version"
+			set the footer of the embed to footer with text "Created by liami_##0001"
+			set the colour of the embed to cyan
+		send last made embed to event-channel with event-bot
